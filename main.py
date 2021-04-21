@@ -10,7 +10,9 @@ class Reversi:
         self.init()
         self.print_board()
         while True:
-            self.get_player_move()
+            move = self.get_player_move()
+            self.play_move(move)
+            self.print_board()
 
     def init(self):
         self.board = []
@@ -27,7 +29,7 @@ class Reversi:
         print(self.H_LINE)
         for i in range(8):
             print(self.E_LINE)
-            print(f"{i+1}", end=' ')
+            print(f"{i + 1}", end=' ')
             for j in range(8):
                 print(f"| {self.board[i][j]}", end=' ')
             print("|")
@@ -37,19 +39,33 @@ class Reversi:
     def get_player_move(self):
         print("Please enter your move...")
         move = input()
+        if self.is_valid_move(move):
+            print(f"Your move is: {move}")
+            return move
+        else:
+            return self.get_player_move()
+
+    def is_valid_move(self, move: str) -> bool:
         if len(move) != 2:
             print("ERROR: Your move has to be exactly 2 digits!")
-            return self.get_player_move()
+            return False
 
         if move[0] not in self.DIGITS1TO8 or move[1] not in self.DIGITS1TO8:
             print("ERROR: Your move has to include only digits between 1 and 8!")
-            return self.get_player_move()
+            return False
+
         row = int(move[0]) - 1
         col = int(move[1]) - 1
         if self.board[row][col] != " ":
             print("ERROR: The cell is already occupied!")
-            return self.get_player_move()
-        print(f"Your move is: {move}")
+            return False
+
+        return True
+
+    def play_move(self, move: str):
+        row = int(move[0]) - 1
+        col = int(move[1]) - 1
+        self.board[row][col] = "X"
 
 
 if __name__ == '__main__':
