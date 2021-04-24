@@ -5,6 +5,7 @@ class Reversi:
 
     def __init__(self):
         self.board = None
+        self.turn = "X"
 
     def start(self):
         self.init()
@@ -65,7 +66,11 @@ class Reversi:
     def play_move(self, move: str):
         row = int(move[0]) - 1
         col = int(move[1]) - 1
-        self.board[row][col] = "X"
+        self.board[row][col] = self.turn
+        if self.turn == "X":
+            self.turn = "O"
+        else:
+            self.turn = "X"
 
 
 if __name__ == '__main__':
